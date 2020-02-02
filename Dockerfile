@@ -10,6 +10,8 @@ COPY pruebapython/main.py /opt/app
 #Copiem i executem els requeriments del arxiu requirements
 COPY requirements.txt /opt/app
 RUN pip install -r /opt/app/requirements.txt
+#copiem l'arxiu entrypoint per a que docker executi l'applicació a la carpeta arrel "/"
+COPY docker-entrypoint.sh /
 
 #executem l'arxiu python
-ENTRYPOINT "python /opt/app/main.py"
+ENTRYPOINT "/docker-entrypoint.sh"
