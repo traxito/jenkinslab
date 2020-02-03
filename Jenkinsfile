@@ -45,8 +45,7 @@ pipeline {
         } 
     stage('PushDockerImage') {
             steps {
-            	sh '''
-            		docker tag jenkinsdockertest:latest
+            	sh ''
 					 docker tag jenkinsdockertest:latest traxito/jenkinsdockertest:latest
                                          docker push traxito/jenkinsdockertest:latest
                 '''
