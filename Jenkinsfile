@@ -18,37 +18,37 @@ pipeline {
         stage('InstallRequirements') {
             steps {
             	sh '''
-            		bash -c "source ${WORKSPACE}/entorno_virtual/bin/activate && ${WORKSPACE}/entornovirtual/bin/python ${WORKSPACE}/entorno_virtual/bin/pip install -r requirements.txt"
+            		bash -c "source ${WORKSPACE}/entorno_virtual/bin/activate && ${WORKSPACE}/entornovirtual/bin/python ${WORKSPACE}/entornovirtual/bin/pip install -r requirements.txt"
                 '''
             }
         }   
         stage('TestApp') {
             steps {
             	sh '''
-            		bash -c "source ${WORKSPACE}/entornovirtual/bin/activate &&  cd src && ${WORKSPACE}/entornovirtual/bin/python ${WORKSPACE}/entorno_virtual/bin/pytest && cd .."
+            		bash -c "source ${WORKSPACE}/entornovirtual/bin/activate &&  cd src && ${WORKSPACE}/entornovirtual/bin/python ${WORKSPACE}/entornovirtual/bin/pytest && cd .."
                 '''
             }
         }  
         stage('RunApp') {
             steps {
             	sh '''
-            		bash -c "source entornovirtual/bin/activate ; ${WORKSPACE}/entornovirtual/bin/python src/main.py &"
+            		bash -c "source entornovirtual/bin/activate ; ${WORKSPACE}/entornovirtual/bin/python pruebapython main.py &"
                 '''
             }
         } 
         stage('BuildDocker') {
             steps {
             	sh '''
-            		docker build -t apptest:latest .
+            		docker build -t jenkinsdockertest:latest .
                 '''
             }
         } 
     stage('PushDockerImage') {
             steps {
             	sh '''
-            		docker tag apptest:latest mijack/apptest:latest
-					docker push mijack/apptest:latest
-					docker rmi apptest:latest
+            		docker tag jenkinsdockertest:latest
+					 docker tag jenkinsdockertest:latest traxito/jenkinsdockertest:latest
+                                         docker push traxito/jenkinsdockertest:latest
                 '''
             }
         } 
